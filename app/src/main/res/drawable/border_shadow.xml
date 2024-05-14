@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <!-- Чёрный объект для визуального эффекта тени -->
+    <item android:left="3dp" android:top="3dp">
+        <shape>
+            <solid android:color="@color/black" />
+            <padding
+                android:right="2dp"
+                android:bottom="2dp"
+                />
+
+        </shape>
+    </item>
+
+    <!-- Основной контур -->
+    <item>
+        <shape>
+            <solid android:color="@android:color/white"/>
+            <stroke
+                android:width="2dp"
+                android:color="@color/black"/>
+            <padding
+                android:left="2dp"
+                android:top="2dp"
+                android:right="2dp"
+                android:bottom="2dp"/>
+
+        </shape>
+    </item>
+</layer-list>

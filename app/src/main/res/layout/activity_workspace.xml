@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+
+
+            <!-- Боковая панель -->
+            <LinearLayout
+                android:id="@+id/sidePanel"
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:background="#EAEAEA"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <!-- Здесь размещаются кнопки для боковой панели -->
+
+
+                <ImageButton
+                    android:id="@+id/btnProfile"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="70dp"
+                    android:background="@drawable/rounded_border"
+                    android:src="@drawable/avatar_12"
+                    android:onClick="onProfileButtonClick"/>
+
+
+
+                <ImageButton
+                    android:id="@+id/btnSettings"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/settings"
+                    android:background="@drawable/rounded_border"
+                    android:onClick="onSettingsButtonClick"/>
+
+
+
+                <ImageButton
+                    android:id="@+id/btnLogout"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/logout"
+                    android:background="@drawable/rounded_border"
+                    android:onClick="onLogoutButtonClick"/>
+
+
+
+            </LinearLayout>
+
+
+
+            <!-- Центральный контент с списком кнопок -->
+            <ImageButton
+                android:id="@+id/btnToggleSidePanel"
+                android:layout_width="76dp"
+                android:layout_height="74dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="0dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="listView"
+                android:onClick="onToggleSidePanelClick"
+                android:src="@drawable/menu"
+                tools:srcCompat="@drawable/menu" />
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="332dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="1dp"
+        android:layout_toEndOf="@+id/btnToggleSidePanel"
+        android:fontFamily="@font/inter_black"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="Boards"
+        android:textColor="@color/black"
+        android:textSize="30dp" />
+
+    <!-- Центральный контент с списком кнопок -->
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/btnToggleSidePanel"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@id/sidePanel">
+
+
+
+    </ListView>
+
+    <fragment
+
+        android:id="@+id/fragmentCreateView"
+        android:name="com.example.taskchecker.layouts.CreateBoardFragment"
+        android:layout_width="match_parent"
+        android:layout_height="658dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="70dp"
+        android:layout_marginBottom="0dp"></fragment>
+    <fragment
+
+        android:id="@+id/fragmentBoardView"
+        android:name="com.example.taskchecker.layouts.BoardFragment"
+        android:layout_width="match_parent"
+        android:layout_height="658dp"
+        android:layout_toEndOf="@id/sidePanel"
+        android:layout_below="@id/btnToggleSidePanel"
+        >
+
+
+       </fragment>
+    <ImageButton
+        android:id="@+id/btnToggleCreate"
+        android:layout_width="76dp"
+        android:layout_height="74dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/round_button_background"
+        android:onClick="onToggleCreateClick"
+        android:src="@drawable/add"
+        tools:srcCompat="@drawable/add" />
+
+
+</RelativeLayout>

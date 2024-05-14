@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    Font family: Inter
+    Line height: 58px
+    Paragraph spacing: 0px
+<style name=
+    "some_id">
+    <item name=
+        "android:textSize">
+        48px
+    </item>
+    <item name=
+        "android:letterSpacing">
+        0.0005
+    </item>
+    <item name=
+        "android:textColor">
+        #FFFFFF
+    </item>
+</style>
+    <style name="SomeCustomStyle">
+        <item name="android:textSize">48px</item>
+        <item name="android:letterSpacing">0.0005</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <!-- Добавленные параметры для шрифта -->
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="android:lineHeight">58px</item>
+        <item name="android:lineSpacingExtra">0px</item>
+        <!-- Опциональные параметры для отступов -->
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <!-- Опциональные параметры для выравнивания -->
+        <item name="android:textAlignment">center</item>
+    </style>
+
+</resources>

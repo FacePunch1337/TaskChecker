@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/usernameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:hint="Username"
+        android:layout_marginBottom="8dp"
+        android:minHeight="48dp"/>
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_below="@id/usernameEditText"
+        android:layout_marginBottom="8dp"
+        android:minHeight="48dp"/>
+
+
+    <Button
+        android:id="@+id/signInButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign In"
+        android:layout_below="@id/passwordEditText"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/createAccountButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create an Account"
+        android:layout_below="@id/signInButton"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

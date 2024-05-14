@@ -1,0 +1,5 @@
+<resources>
+    <string name="TaskChecker">TaskChecker</string>
+    <string name="edittext_hint" />
+
+</resources>
