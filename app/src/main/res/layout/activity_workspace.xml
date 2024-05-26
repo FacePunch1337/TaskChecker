@@ -1,40 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="?android:colorBackground">
 
 
 
             <!-- Боковая панель -->
             <LinearLayout
                 android:id="@+id/sidePanel"
-                android:layout_width="75dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
-                android:background="#EAEAEA"
+                android:background="?android:colorBackground"
                 android:visibility="gone"
                 android:orientation="vertical">
 
                 <!-- Здесь размещаются кнопки для боковой панели -->
 
-
-                <ImageButton
-                    android:id="@+id/btnProfile"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                <FrameLayout
+                    android:id="@+id/avatarFrame"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="70dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_border_shadow">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/btnProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:background="@drawable/rounded_border"
                     android:src="@drawable/avatar_12"
+                    app:shapeAppearanceOverlay="@style/CircleImageViewStyle"
                     android:onClick="onProfileButtonClick"/>
 
-
+                </FrameLayout>
 
                 <ImageButton
+                    android:id="@+id/btnToggleTheme"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/settings"
+                    android:background="@drawable/rounded_border"
+                    android:onClick="onToggleThemeClick"/>
+                <ImageButton
                     android:id="@+id/btnSettings"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
                     android:src="@drawable/settings"
                     android:background="@drawable/rounded_border"
                     android:onClick="onSettingsButtonClick"/>
@@ -43,8 +60,9 @@
 
                 <ImageButton
                     android:id="@+id/btnLogout"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
                     android:src="@drawable/logout"
                     android:background="@drawable/rounded_border"
                     android:onClick="onLogoutButtonClick"/>
@@ -80,7 +98,7 @@
         android:gravity="center_vertical"
         android:padding="10dp"
         android:text="Boards"
-        android:textColor="@color/black"
+        android:textColor="?android:textColor"
         android:textSize="30dp" />
 
     <!-- Центральный контент с списком кнопок -->

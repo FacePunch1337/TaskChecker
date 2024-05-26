@@ -1,19 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/boardLayout"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/red">
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/backicon"
+                android:background="@drawable/rounded_border_shadow" />
+            <ImageButton
+                android:id="@+id/btnNotifications"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="68dp"
+                android:layout_marginBottom="20dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/transparent"
+                android:src="@drawable/notificationicon" />
+
+            <ImageButton
+                android:id="@+id/btnBoardSettings"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/transparent"
+                android:src="@drawable/boardsettings" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/boardTitle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Board"
+            android:textSize="25dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/inter_black"
+            android:textAlignment="center"
+            android:gravity="center" />
+
+        <ScrollView
+            android:id="@+id/verticalScrollView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+               >
+
+
+                <LinearLayout
+                    android:id="@+id/boardLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="20dp">
+                </LinearLayout>
+
+            </HorizontalScrollView>
+        </ScrollView>
+
+
+    </LinearLayout>
 
     <ImageButton
-        android:id="@+id/btnBack"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/rounded_border_shadow" />
+        android:id="@+id/btnDeleteCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@color/transparent"
+        android:paddingBottom="20dp"
+        android:visibility="gone"
+        android:src="@drawable/bucketicon" />
 
-
-</LinearLayout>
+</FrameLayout>

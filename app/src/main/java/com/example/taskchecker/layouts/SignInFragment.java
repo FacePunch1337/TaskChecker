@@ -18,6 +18,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.taskchecker.R;
+import com.example.taskchecker.activities.WorkSpaceActivity;
 import com.example.taskchecker.services.UserApiService;
 import com.example.taskchecker.activities.ProfileActivity;
 
@@ -42,12 +43,12 @@ public class SignInFragment extends Fragment {
         usernameEditText = rootView.findViewById(R.id.usernameEditText);
         passwordEditText = rootView.findViewById(R.id.passwordEditText);
         signInButton = rootView.findViewById(R.id.signInButton);
-        signUpLink = rootView.findViewById(R.id.signUpLink);
+        //signUpLink = rootView.findViewById(R.id.signUpLink);
 
         signInButton.setOnClickListener(view -> signIn());
-        signUpLink.setOnClickListener(v -> {
+        //signUpLink.setOnClickListener(v -> {
             // Переключение активности происходит из AuthActivity
-        });
+       // });
         usernameEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
         usernameEditText.setPadding(70, 0, 35, 10);
         passwordEditText.setPadding(70, 0, 35, 10);
@@ -141,7 +142,7 @@ public class SignInFragment extends Fragment {
         UserApiService.signIn(requireActivity(), username, password, new UserApiService.Callback() {
             @Override
             public void onSuccess(JSONObject userData) {
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                Intent intent = new Intent(getActivity(), WorkSpaceActivity.class);
                 startActivity(intent);
                 Toast.makeText(requireContext(), "Welcome!", Toast.LENGTH_SHORT).show();
             }

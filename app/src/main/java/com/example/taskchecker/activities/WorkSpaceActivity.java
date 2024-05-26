@@ -1,6 +1,7 @@
 package com.example.taskchecker.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -23,6 +25,7 @@ import com.example.taskchecker.models.BoardModel;
 import com.example.taskchecker.models.UserModel;
 import com.example.taskchecker.services.BoardButtonAdapter;
 import com.example.taskchecker.services.UserApiService;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,9 +41,10 @@ public class WorkSpaceActivity extends AppCompatActivity {
     public static TextView titleTextView;
     public BoardModel boardModel;
     private LinearLayout sidePanel;
-    private ImageButton btnProfile;
+    private ShapeableImageView btnProfile;
     private ImageButton btnLogout;
     private ImageButton btnToggleSidePanel;
+    private ImageButton btnToggleTheme;
     private ImageButton btnToggleCreate;
 
     private ListView listView;
@@ -57,6 +61,14 @@ public class WorkSpaceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences preferences = getSharedPreferences("theme_prefs", MODE_PRIVATE);
+        boolean isDarkTheme = preferences.getBoolean("is_dark_theme", false);
+        if (isDarkTheme) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         setContentView(R.layout.activity_workspace);
         fetchBoardButtons();
         getSupportFragmentManager().beginTransaction()
@@ -79,7 +91,13 @@ public class WorkSpaceActivity extends AppCompatActivity {
         boardFragment = fragmentManager.findFragmentById(R.id.fragmentBoardView);
         fragmentCreateView.setVisibility(View.GONE);
         fragmentBoardView.setVisibility(View.GONE);
-
+        btnToggleTheme = findViewById(R.id.btnToggleTheme);
+        btnToggleTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onToggleThemeClick();
+            }
+        });
         setOnBoardButtonAddedListener(new OnBoardButtonAddedListener() {
             @Override
             public void onBoardButtonAdded() {
@@ -116,6 +134,24 @@ public class WorkSpaceActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onToggleThemeClick() {
+        boolean isCurrentlyDark = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES;
+        if (isCurrentlyDark) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            saveThemePreference(false);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            saveThemePreference(true);
+        }
+    }
+
+    private void saveThemePreference(boolean isDarkTheme) {
+        SharedPreferences preferences = getSharedPreferences("theme_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("is_dark_theme", isDarkTheme);
+        editor.apply();
+    }
+
     public void onToggleCreateClick() {
         if (fragmentCreateView.getVisibility() == View.VISIBLE) {
             fragmentCreateView.setVisibility(View.GONE);
@@ -134,6 +170,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
         BoardButtonModel newButton = new BoardButtonModel(boardTitle);
         mBoardButtons.add(newButton);
         mAdapter.notifyDataSetChanged();
+
         // Перезапускаем активити
        /* WorkSpaceActivity activity = (WorkSpaceActivity) mAdapter.getContext();
         if (activity != null) {
@@ -148,7 +185,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
 
 
 
-    public void OpenBoard(JSONObject boardData) throws JSONException {
+    /*public void OpenBoard(JSONObject boardData) throws JSONException {
         if (boardData != null) {
             fragmentBoardView.setVisibility(View.VISIBLE);
             String boardTitle = boardData.getString("title");
@@ -158,6 +195,7 @@ public class WorkSpaceActivity extends AppCompatActivity {
             //boardModel = new BoardModel();
             //boardModel.setBoardData(boardData);
             // Передаем данные фрагменту BoardFragment
+           // BoardFragment boardFragment = new BoardFragment();
             BoardFragment boardFragment = (BoardFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentBoardView);
             if (boardFragment != null) {
                 boardFragment.GetBoardData(boardData);
@@ -168,7 +206,29 @@ public class WorkSpaceActivity extends AppCompatActivity {
             Log.e("WorkSpaceActivity", "Получено пустое boardData");
             // При необходимости отображаем всплывающее сообщение или обрабатываем этот случай грациозно
         }
+    }*/
+
+    public void OpenBoard(JSONObject boardData) throws JSONException {
+        if (boardData != null) {
+            // Создаем намерение для запуска BoardActivity
+            Intent intent = new Intent(this, BoardActivity.class);
+            // Передаем данные о доске как строку JSON через Intent
+            intent.putExtra("boardData", boardData.toString());
+
+            // Передаем title
+            String title = boardData.getString("title");
+            intent.putExtra("boardTitle", title);
+
+            // Запускаем активность
+            startActivity(intent);
+        } else {
+            Log.e("WorkSpaceActivity", "Получено пустое boardData");
+            // При необходимости отображаем всплывающее сообщение или обрабатываем этот случай грациозно
+        }
     }
+
+
+
 
 
     public void onToggleSidePanelClick(View view) {
@@ -182,6 +242,9 @@ public class WorkSpaceActivity extends AppCompatActivity {
     private void fetchBoardButtons() {
         // Очищаем список перед загрузкой новых кнопок
         mBoardButtons.clear();
+
+        // Предположим, что идентификатор клиента доступен через какой-то метод или поле
+        String clientId = UserModel.get_id();
 
         UserApiService.fetchBoardButtons(WorkSpaceActivity.this, new UserApiService.Callback() {
             @Override
@@ -201,11 +264,10 @@ public class WorkSpaceActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String errorMessage) {
-                Toast.makeText(WorkSpaceActivity.this, "Не удалось получить кнопки досок", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WorkSpaceActivity.this, "Не удалось получить кнопки досок: " + errorMessage, Toast.LENGTH_SHORT).show();
             }
-        });
+        }, clientId);
     }
-
 
     public void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()

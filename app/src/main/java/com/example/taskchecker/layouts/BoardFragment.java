@@ -26,18 +26,14 @@ import org.json.JSONObject;
 
 public class BoardFragment extends Fragment {
 
-
     private ImageButton btnBack;
     private Fragment boardFragment;
-
     private LinearLayout boardLayout;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View rootView = inflater.inflate(R.layout.board_panel, container, false);
         btnBack = rootView.findViewById(R.id.btnBack);
         boardLayout = rootView.findViewById(R.id.boardLayout);
@@ -59,12 +55,15 @@ public class BoardFragment extends Fragment {
             }
         });
 
-       //String boardDataJson = "{\"_id\":\"66427985621e1e0bc857ea2d\",\"title\":\"BoardName\",\"owner\":\"663c227dc9d78e74f6fa0e42\",\"columns\":[{\"title\":\"Backlog\",\"cards\":[{\"title\":\"NewTask\",\"_id\":\"66427a56621e1e0bc857ea4c\"},{\"title\":\"NewTask2\",\"_id\":\"66427a68621e1e0bc857ea5b\"},{\"title\":\"NewTask3\",\"_id\":\"66427a77621e1e0bc857ea6c\"}],\"_id\":\"66427985621e1e0bc857ea2e\"},{\"title\":\"InProgress\",\"cards\":[],\"_id\":\"66427985621e1e0bc857ea2f\"},{\"title\":\"Release\",\"cards\":[],\"_id\":\"66427985621e1e0bc857ea30\"}],\"__v\":3}";
 
         return rootView;
     }
 
     private void createColumns(JSONObject boardData) throws JSONException {
+        // Перевод dp в пиксели
+        final float scale = getResources().getDisplayMetrics().density;
+        int marginPixels = (int) (10 * scale + 0.5f); // 8dp в пикселях
+
         JSONArray columnsArray = boardData.getJSONArray("columns");
         for (int i = 0; i < columnsArray.length(); i++) {
             JSONObject columnObj = columnsArray.getJSONObject(i);
@@ -86,6 +85,15 @@ public class BoardFragment extends Fragment {
             // Если колонка не существует, то создаем её
             if (!columnExists) {
                 LinearLayout columnLayout = createColumnLayout(columnObj);
+
+                // Устанавливаем маржу для столбца
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(marginPixels, 0, marginPixels, 0); // Устанавливаем маржу для столбца
+                columnLayout.setLayoutParams(params);
+
                 boardLayout.addView(columnLayout);
             }
         }
@@ -94,15 +102,19 @@ public class BoardFragment extends Fragment {
 
 
 
+
     private LinearLayout createColumnLayout(JSONObject columnObj) throws JSONException {
-        LinearLayout columnLayout = new LinearLayout(getContext());
-        columnLayout.setOrientation(LinearLayout.VERTICAL);
-        TextView columnNameTextView = createColumnNameTextView(columnObj.getString("title"));
-        columnLayout.addView(columnNameTextView);
-        createCards(columnObj.getJSONArray("cards"), columnLayout);
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        LinearLayout columnLayout = (LinearLayout) inflater.inflate(R.layout.column_layout, null);
+
+        TextView columnNameTextView = columnLayout.findViewById(R.id.columnNameTextView);
+
+        columnNameTextView.setText(columnObj.getString("title"));
+
+        createCards(columnObj.getJSONArray("cards"), (LinearLayout) columnLayout.findViewById(R.id.cardsLayout));
+
         return columnLayout;
     }
-
     private TextView createColumnNameTextView(String columnName) {
         TextView columnNameTextView = new TextView(getContext());
         columnNameTextView.setText(columnName);
@@ -110,22 +122,39 @@ public class BoardFragment extends Fragment {
     }
 
     private void createCards(JSONArray cardsArray, LinearLayout columnLayout) throws JSONException {
+        // Перевод dp в пиксели
+        final float scale = getResources().getDisplayMetrics().density;
+        int verticalMarginPixels = (int) (5 * scale + 0.5f); // Вертикальный отступ в пикселях
+
         for (int j = 0; j < cardsArray.length(); j++) {
             JSONObject cardObj = cardsArray.getJSONObject(j);
-            Button cardButton = createCardButton(cardObj.getString("title"));
+            TextView cardButton = createCardButton(cardObj.getString("title"));
+
+            // Установка параметров макета для каждой карточки
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, verticalMarginPixels, 0, verticalMarginPixels); // Устанавливаем вертикальный отступ
+            cardButton.setLayoutParams(params);
+
             columnLayout.addView(cardButton);
         }
     }
 
-    private Button createCardButton(String cardTitle) {
-        Button cardButton = new Button(getContext());
+
+    private TextView createCardButton(String cardTitle) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        TextView cardButton = (TextView) inflater.inflate(R.layout.card_layout, null);
         cardButton.setText(cardTitle);
         return cardButton;
     }
 
-    public void GetBoardData(JSONObject boardData) {
 
+    public void GetBoardData(JSONObject boardData) {
+        boardLayout.removeAllViews();
             if (boardData != null) {
+
                // String boardDataJson = boardData.toString();
                 //boardDataJson = StringEscapeUtils.unescapeJava(boardDataJson);
                 Log.d("BoardData", "JSONObject: " + boardData);

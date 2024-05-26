@@ -46,7 +46,7 @@ dependencies {
     implementation ("androidx.compose.ui:ui:1.6.7")
     implementation ("com.google.android.flexbox:flexbox:3.0.0")
     implementation ("androidx.compose.foundation:foundation:1.6.7")
-    implementation ("androidx.compose.material:material:1.6.7")
+
     implementation ("androidx.compose.runtime:runtime:1.6.7")
     implementation ("androidx.compose.ui:ui-tooling:1.6.7")
     implementation ("androidx.activity:activity-compose:1.9.0")
