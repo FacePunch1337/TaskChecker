@@ -5,7 +5,19 @@
         <item name="colorPrimaryDark">@color/blackTransparent80</item>
         <item name="colorAccent">@color/red</item>
         <item name="android:colorBackground">@color/white</item>
+        <item name="android:shadowColor">@color/black</item>
         <item name="android:textColor">@color/black</item>
+
+        <!-- Additional colors -->
+        <item name="colorWhite">@color/white</item>
+        <item name="colorBlack">@color/black</item>
+        <item name="colorBlackTransparent10">@color/blackTransparent10</item>
+        <item name="colorBlackTransparent25">@color/blackTransparent25</item>
+        <item name="colorBlackTransparent75">@color/blackTransparent75</item>
+        <item name="colorBlackTransparent80">@color/blackTransparent80</item>
+        <item name="colorRed">@color/red</item>
+        <item name="colorGreen">@color/green</item>
+        <item name="colorTransparent">@color/transparent</item>
     </style>
 
     <style name="Theme.TaskChecker" parent="Base.Theme.TaskChecker" />

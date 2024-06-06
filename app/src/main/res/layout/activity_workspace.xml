@@ -9,79 +9,115 @@
 
 
             <!-- Боковая панель -->
-            <LinearLayout
-                android:id="@+id/sidePanel"
-                android:layout_width="80dp"
+
+
+    <!-- Центральный контент с списком кнопок -->
+
+    <LinearLayout
+        android:id="@+id/sidePanel"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:background="@drawable/navbar"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <!-- Здесь размещаются кнопки для боковой панели -->
+
+        <FrameLayout
+            android:id="@+id/avatarFrame"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/rounded_border_shadow">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/btnProfile"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:background="?android:colorBackground"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_border"
+                android:onClick="onProfileButtonClick"
+                android:src="@drawable/avatar_12"
+                app:shapeAppearanceOverlay="@style/CircleImageViewStyle" />
 
-                <!-- Здесь размещаются кнопки для боковой панели -->
+        </FrameLayout>
+        <TextView
+            android:id="@+id/profileUsernameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/inter_semibold"
+            android:text="Username"/>
+        <ImageButton
+            android:id="@+id/btnToggleTheme"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_border"
+            android:onClick="onToggleThemeClick"
+            android:src="@drawable/gear" />
 
-                <FrameLayout
-                    android:id="@+id/avatarFrame"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="70dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/rounded_border_shadow">
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/btnProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:background="@drawable/rounded_border"
-                    android:src="@drawable/avatar_12"
-                    app:shapeAppearanceOverlay="@style/CircleImageViewStyle"
-                    android:onClick="onProfileButtonClick"/>
+        <!--ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_border"
+            android:onClick="onSettingsButtonClick"
+            android:src="@drawable/settings" /-->
 
-                </FrameLayout>
-
-                <ImageButton
-                    android:id="@+id/btnToggleTheme"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/settings"
-                    android:background="@drawable/rounded_border"
-                    android:onClick="onToggleThemeClick"/>
-                <ImageButton
-                    android:id="@+id/btnSettings"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/settings"
-                    android:background="@drawable/rounded_border"
-                    android:onClick="onSettingsButtonClick"/>
-
-
-
-                <ImageButton
-                    android:id="@+id/btnLogout"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/logout"
-                    android:background="@drawable/rounded_border"
-                    android:onClick="onLogoutButtonClick"/>
-
-
-
-            </LinearLayout>
-
-
-
-            <!-- Центральный контент с списком кнопок -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+        <RelativeLayout
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/blackTransparent25"/>
             <ImageButton
+                android:id="@+id/logoutImageView"
+                android:layout_width="35dp"
+                android:layout_height="50dp"
+
+                android:background="@drawable/rounded_border"
+                android:onClick="onLogoutButtonClick"
+                android:src="@drawable/logout" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_semibold"
+                android:layout_centerInParent="true"
+                android:layout_toEndOf="@+id/logoutImageView"
+                android:text="Logout" />
+
+        </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageButton
                 android:id="@+id/btnToggleSidePanel"
-                android:layout_width="76dp"
-                android:layout_height="74dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="15dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="listView"
                 android:onClick="onToggleSidePanelClick"
@@ -90,12 +126,11 @@
 
     <TextView
         android:id="@+id/titleTextView"
-        android:layout_width="332dp"
+        android:layout_width="wrap_content"
         android:layout_height="75dp"
-        android:layout_marginStart="1dp"
-        android:layout_toEndOf="@+id/btnToggleSidePanel"
+
+        android:layout_centerHorizontal="true"
         android:fontFamily="@font/inter_black"
-        android:gravity="center_vertical"
         android:padding="10dp"
         android:text="Boards"
         android:textColor="?android:textColor"
@@ -108,24 +143,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/btnToggleSidePanel"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="2dp"
-        android:layout_toEndOf="@id/sidePanel">
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_toEndOf="@id/sidePanel"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" >
 
 
 
-    </ListView>
+
+</ListView>
 
     <fragment
 
         android:id="@+id/fragmentCreateView"
         android:name="com.example.taskchecker.layouts.CreateBoardFragment"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="658dp"
-        android:layout_below="@+id/textView"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="70dp"
-        android:layout_marginBottom="0dp"></fragment>
+        android:layout_marginBottom="0dp"/>
     <fragment
 
         android:id="@+id/fragmentBoardView"

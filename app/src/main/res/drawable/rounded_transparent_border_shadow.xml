@@ -14,7 +14,7 @@
                 android:right="2dp"
                 android:bottom="2dp"
                 />
-            <corners android:radius="15dp"/>
+            <corners android:radius="23dp"/>
         </shape>
     </item>
 
@@ -30,7 +30,7 @@
                 android:top="2dp"
                 android:right="2dp"
                 android:bottom="2dp"/>
-            <corners android:radius="15dp"/>
+            <corners android:radius="23dp"/>
         </shape>
     </item>
 </layer-list>

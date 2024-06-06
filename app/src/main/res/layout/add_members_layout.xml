@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/dim_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"
+        android:alpha="0.5"
+        android:visibility="gone" />
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp">
+
+        <TextView
+            android:id="@+id/textAddMember"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add members"
+            android:fontFamily="@font/inter_black"
+            android:textSize="25sp"/>
+
+        <RelativeLayout
+            android:id="@+id/AddMemberLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:layout_below="@+id/textAddMember">
+
+            <ImageButton
+                android:id="@+id/UserSearchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/lupaicon"
+                android:scaleType="centerCrop"
+                android:background="@null"
+                android:padding="12dp"/>
+
+            <EditText
+                android:id="@+id/UserSearchEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/UserSearchButton"
+                android:background="@null"
+                android:hint="Username"
+                android:fontFamily="@font/inter_semibold"
+                android:layout_centerVertical="true"/>
+
+            <ImageButton
+                android:id="@+id/btnCloseAddMember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/cross"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerCrop"
+                android:padding="12dp"/>
+
+            <View
+                android:id="@+id/view_firstName"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#505C69"
+                android:layout_below="@+id/UserSearchButton"/>
+        </RelativeLayout>
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_below="@+id/AddMemberLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/blackTransparent10">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</RelativeLayout>

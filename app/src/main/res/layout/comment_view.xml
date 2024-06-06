@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:padding="10dp"
+    android:background="@drawable/rounded_border"
+    android:backgroundTint="@color/blackTransparent10">
+
+    <FrameLayout
+        android:id="@+id/userCommentAvatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/rounded_border_shadow">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/avatarCommentImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar_12"
+            app:shapeAppearanceOverlay="@style/CircleImageViewStyle" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/userCommentUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/userCommentAvatar"
+        android:layout_marginStart="10dp"
+        android:textSize="15dp"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/black"
+        android:text="username" />
+
+    <TextView
+        android:id="@+id/userCommentTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/userCommentUsername"
+        android:layout_marginStart="10dp"
+        android:textSize="15dp"
+        android:fontFamily="@font/inter_semibold"
+        android:textColor="@color/blackTransparent80"
+        android:text="12:43" />
+
+    <TextView
+        android:id="@+id/commentText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/userCommentAvatar"
+        android:layout_below="@id/userCommentUsername"
+        android:layout_marginStart="10dp"
+        android:textSize="15dp"
+        android:fontFamily="@font/inter"
+        android:textColor="@color/blackTransparent80"
+        android:text="Text" />
+</RelativeLayout>

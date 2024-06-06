@@ -3,8 +3,9 @@
     <!-- Light Theme Colors -->
     <color name="white">#FFFFFF</color>
     <color name="black">#505C69</color>
-    <color name="blackTransparent10">#EEEFF0</color>
+    <color name="blackTransparent10">#E5E7E9</color>
     <color name="blackTransparent25">#D3D6D9</color>
+    <color name="blackTransparent75">#505C69</color>
     <color name="blackTransparent80">#78818B</color>
     <color name="red">#F06B6C</color>
     <color name="green">#57C3BE</color>
@@ -12,10 +13,12 @@
 
     <!-- Dark Theme Colors -->
     <color name="white_night">#FFFFFF</color>
-    <color name="black_night">#353A3F</color>
+    <color name="black_night">#505C69</color>
     <color name="blackTransparent10_night">#EEEFF0</color>
     <color name="blackTransparent25_night">#D3D6D9</color>
+    <color name="blackTransparent75_night">#505C69</color>
     <color name="blackTransparent80_night">#78818B</color>
     <color name="red_night">#F06B6C</color>
+    <color name="green_night">#57C3BE</color>
     <color name="transparent_night">#00FFFFFF</color>
 </resources>

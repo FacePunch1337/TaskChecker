@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "842129711807",
+    "firebase_url": "https://taskcheker-39fd8-default-rtdb.firebaseio.com",
+    "project_id": "taskcheker-39fd8",
+    "storage_bucket": "taskcheker-39fd8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842129711807:android:1d7d232c2bdabff3b01c0a",
+        "android_client_info": {
+          "package_name": "com.example.taskchecker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIyOgW5PWlkXWy6BS9FYBdgl6ovxXKYsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

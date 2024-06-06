@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
@@ -12,6 +12,7 @@
 
 
     <application
+
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -24,6 +25,14 @@
         android:requestRawExternalStorageAccess="true"
         tools:targetApi="31">
 
+        <service
+            android:name=".services.MessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".activities.AuthActivity"
             android:exported="true">
@@ -34,7 +43,12 @@
             </intent-filter>
         </activity>
 
-
+       <!--meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent"/-->
         <activity
             android:name=".activities.ProfileActivity"
             android:exported="true">
@@ -53,6 +67,14 @@
         </activity>
         <activity
             android:name=".activities.CardMenuActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".activities.AddMembersActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".services.MessagingService"
             android:exported="true">
         </activity>
 

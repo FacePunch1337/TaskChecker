@@ -4,16 +4,15 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -28,15 +27,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.taskchecker.R;
-import com.example.taskchecker.models.UserModel;
 import com.example.taskchecker.services.UserApiService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class BoardActivity extends AppCompatActivity {
 
@@ -53,6 +53,8 @@ public class BoardActivity extends AppCompatActivity {
     private ImageView executorAvatarImageView;
     private boolean isOverDeleteButton = false;
     private String boardData;
+    private String boardTitle;
+    private String owner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +71,13 @@ public class BoardActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            fetchBoardData();
 
-            String boardTitle = intent.getStringExtra("boardTitle");
+            boardTitle = intent.getStringExtra("boardTitle");
+
             // Обновляем TextView
             TextView titleTextView = findViewById(R.id.boardTitle);
             titleTextView.setText(boardTitle);
-
+            fetchBoardData();
             // Прочие действия с boardData...
         } else {
             Log.e("BoardActivity", "Intent is null");
@@ -102,6 +104,8 @@ public class BoardActivity extends AppCompatActivity {
                 // Если вам нужно передать какие-либо данные в активити настроек доски,
                 // используйте методы putExtra() или другие методы Intent для передачи данных
                 intent.putExtra("boardId", currentBoardId);
+                intent.putExtra("owner", owner);
+                intent.putExtra("boardTitle", boardTitle);
                 // Запускаем активити
                 startActivity(intent);
             }
@@ -109,9 +113,18 @@ public class BoardActivity extends AppCompatActivity {
 
         });
 
+        //SocketManager socketManager = SocketManager.getInstance();
+        //socketManager.connect();
 
 
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //SocketManager socketManager = SocketManager.getInstance();
+        //socketManager.disconnect();
     }
 
     private void fetchBoardData() {
@@ -121,7 +134,7 @@ public class BoardActivity extends AppCompatActivity {
             try {
                 JSONObject boardData = new JSONObject(boardDataString);
                 currentBoardId = boardData.getString("_id");
-
+                owner = boardData.getString("owner");
                 JSONArray columnsArray = boardData.getJSONArray("columns");
                 columnsId = new String[columnsArray.length()];
                 createColumns(boardData);
@@ -271,35 +284,40 @@ public class BoardActivity extends AppCompatActivity {
                         int scrollViewHeight = verticalScrollView.getHeight();
 
                         // Вычисляем допустимый порог для скроллинга
-                        int scrollHorizontalThreshold = scrollViewWidth / 10;
-                        int scrollVerticaThreshold = scrollViewHeight / 10;
+                        int scrollVerticalThreshold = 100; // Порог скроллинга по вертикали
+                        int scrollHorizontalThreshold = 100; // Порог скроллинга по горизонтали
+
+                        Log.d("DragDrop", "Drag Location - X: " + x + ", Y: " + y);
+                        Log.d("DragDrop", "ScrollView - Width: " + scrollViewWidth + ", Height: " + scrollViewHeight);
 
                         // Определяем, нужно ли скроллить вверх или вниз
-                        if (y < scrollVerticaThreshold) {
-                            // Скроллим вверх
+                        if (y < scrollVerticalThreshold) {
+                            Log.d("DragDrop", "Scrolling up");
                             verticalScrollView.smoothScrollBy(0, -100);
-                        } else if (y > scrollViewHeight - scrollVerticaThreshold) {
-                            // Скроллим вниз
+                        } else if (y > scrollViewHeight - scrollVerticalThreshold) {
+                            Log.d("DragDrop", "Scrolling down");
                             verticalScrollView.smoothScrollBy(0, 100);
-                        } else if (x < scrollHorizontalThreshold) {
-                            // Скроллим вверх
+                        }
+
+                        // Определяем, нужно ли скроллить влево или вправо
+                        if (x < scrollHorizontalThreshold) {
+                            Log.d("DragDrop", "Scrolling left");
                             verticalScrollView.smoothScrollBy(-100, 0);
                         } else if (x > scrollViewWidth - scrollHorizontalThreshold) {
-                            // Скроллим вниз
+                            Log.d("DragDrop", "Scrolling right");
                             verticalScrollView.smoothScrollBy(100, 0);
                         }
                         return true;
+
                     case DragEvent.ACTION_DRAG_STARTED:
                         btnDeleteCard.setOnDragListener(new DeleteButtonDragListenerService(currentBoardId, draggedFromColumnId));
                         return event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN);
 
                     case DragEvent.ACTION_DRAG_ENTERED:
-                        // v.setBackgroundColor(0x30000000);  // Change background color to indicate entering
                         v.invalidate();
                         return true;
 
                     case DragEvent.ACTION_DRAG_EXITED:
-                        // v.setBackgroundColor(0x00000000);  // Revert background color to original
                         v.invalidate();
                         return true;
 
@@ -331,7 +349,6 @@ public class BoardActivity extends AppCompatActivity {
 
                         draggedView.setTag(cardId);
 
-                        //  v.setBackgroundColor(0x00000000);  // Revert background color to original
                         v.invalidate();
                         return true;
 
@@ -340,7 +357,6 @@ public class BoardActivity extends AppCompatActivity {
                             View draggedViewEnded = (View) event.getLocalState();
                             draggedViewEnded.setVisibility(View.VISIBLE);
                         }
-                        //   v.setBackgroundColor(0x00000000);  // Revert background color to original
                         v.invalidate();
                         return true;
 
@@ -393,21 +409,36 @@ public class BoardActivity extends AppCompatActivity {
             String columnId = (String) parentColumn.getTag();
 
             // Делаем запрос для получения деталей карточки
-            UserApiService.fetchCardDetails(BoardActivity.this, boardId, columnId, cardId, new UserApiService.Callback() {
+            UserApiService.fetchCardDetails(this, boardId, columnId, cardId, new UserApiService.Callback() {
                 @Override
-                public void onSuccess(JSONObject userData) throws JSONException {
-                    JSONObject card = userData.getJSONObject("card");
-                    String executorId = card.getString("executor");
-                    String startDate = card.getString("startDate");
-                    String endDate = card.getString("endDate");
+                public void onSuccess(JSONObject response) throws JSONException {
+                    Log.d("Executor", "Response: " + response);
 
-                    // Находим ImageView для аватарки текущей карточки
-                    ImageView executorAvatarImageView = cardButton.findViewById(R.id.executorAvatarImageView);
-                    TextView startDateTextView = cardButton.findViewById(R.id.startDateTextView);
-                    TextView endDateTextView = cardButton.findViewById(R.id.endDateTextView);
-                    loadDate(columnId, cardId, startDate, endDate, startDateTextView, endDateTextView);
-                    // Загружаем аватарку исполнителя
-                    loadExecutorAvatar(executorId, executorAvatarImageView);
+                    JSONObject cardData = response.optJSONObject("card");
+                    if (cardData != null) {
+                        String description = cardData.optString("description", null);
+                        JSONArray commentsArray = cardData.optJSONArray("comments");
+                        int commentsCount = (commentsArray != null) ? commentsArray.length() : 0;
+                        String executorId = cardData.optString("executor", null);
+                        String startDate = cardData.optString("startDate", null);
+                        String endDate = cardData.optString("endDate", null);
+
+                        // Находим ImageView для аватарки текущей карточки
+                        FrameLayout executorAvatarFrameLayout = cardButton.findViewById(R.id.executorAvatar);
+                        ImageView executorAvatarImageView = cardButton.findViewById(R.id.executorAvatarImageView);
+                        TextView startDateTextView = cardButton.findViewById(R.id.startDateTextView);
+                        TextView endDateTextView = cardButton.findViewById(R.id.endDateTextView);
+                        RelativeLayout cardInfoView = cardButton.findViewById(R.id.cardInfo);
+                        ImageView descriptionIcon = cardButton.findViewById(R.id.descriptionIcon);
+                        ImageView commentIcon = cardButton.findViewById(R.id.commentIcon);
+
+                        loadDescriptionCardInfo(description, descriptionIcon, cardInfoView);
+                        loadCommentsCardInfo(commentsCount, commentIcon, cardInfoView);
+                        loadDate(columnId, cardId, startDate, endDate, startDateTextView, endDateTextView);
+
+                        // Загружаем аватарку исполнителя
+                        loadExecutorAvatar(executorId, executorAvatarFrameLayout, executorAvatarImageView);
+                    }
                 }
 
                 @Override
@@ -417,11 +448,11 @@ public class BoardActivity extends AppCompatActivity {
             });
 
             // Получаем список задач для текущей карточки
-            UserApiService.getTaskList(BoardActivity.this, boardId, columnId, cardId, new UserApiService.TaskIdCallback() {
+            UserApiService.getTaskList(BoardActivity.this, boardId, columnId, cardId, new UserApiService.ListCallback() {
                 @Override
-                public void onSuccessWithTaskIds(JSONObject response, List<String> taskIds) {
+                public void onSuccessWithItemIds(JSONObject response, List<String> itemIds) {
                     try {
-                        int totalTasks = taskIds.size();
+                        int totalTasks = itemIds.size();
                         int completedTasks = 0;
 
                         // Подсчет выполненных задач
@@ -437,8 +468,13 @@ public class BoardActivity extends AppCompatActivity {
                         int progress = totalTasks > 0 ? (completedTasks * 100 / totalTasks) : 0;
 
                         // Обновление прогресс-бара
-                        ProgressBar progressBar = cardButton.findViewById(R.id.progressBar);
-                        progressBar.setProgress(progress);
+                        if(totalTasks > 0){
+                            RelativeLayout progressBarView = cardButton.findViewById(R.id.progressBarView);
+                            ProgressBar progressBar = cardButton.findViewById(R.id.progressBar);
+                            progressBarView.setVisibility(View.VISIBLE);
+                            progressBar.setProgress(progress);
+                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Toast.makeText(BoardActivity.this, "Error processing task list", Toast.LENGTH_SHORT).show();
@@ -466,30 +502,75 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 
+        private void loadDescriptionCardInfo(String description, ImageView descriptionIcon, RelativeLayout cardInfoView) {
+            if(description != null && !description.isEmpty()){
+                cardInfoView.setVisibility(View.VISIBLE);
+                descriptionIcon.setVisibility(View.VISIBLE);
+            } else {
+                descriptionIcon.setVisibility(View.GONE);
+            }
+        }
+    private void loadCommentsCardInfo(int commentsCount, ImageView commentIcon, RelativeLayout cardInfoView) {
+        if (commentsCount > 0) {
+            cardInfoView.setVisibility(View.VISIBLE);
+            commentIcon.setVisibility(View.VISIBLE);
+
+            TextView commentsCountTextView = cardInfoView.findViewById(R.id.commentsCountTextView);
+            commentsCountTextView.setText(String.valueOf(commentsCount));
+            commentsCountTextView.setVisibility(View.VISIBLE);
+        } else {
+            commentIcon.setVisibility(View.GONE);
+        }
+    }
+
+
     private void loadDate(String columnId, String cardId, String startDate, String endDate, TextView startDateTextView, TextView endDateTextView){
         UserApiService.updateDeadline(BoardActivity.this, currentBoardId, columnId, cardId, startDate, endDate, new UserApiService.Callback() {
             @Override
             public void onSuccess(JSONObject userData) throws JSONException {
                 JSONObject cardData = userData.getJSONObject("card");
-                String startDate = cardData.getString("startDate");
-                String endDate = cardData.getString("endDate");
-                startDateTextView.setText(startDate);
-                endDateTextView.setText(endDate);
-            }
+                String fetchedStartDate = cardData.optString("startDate", null);
+                String fetchedEndDate = cardData.optString("endDate", null);
 
-            @Override
-            public void onFailure(String errorMessage) {
+                // Обновление startDateTextView
+                if (fetchedStartDate != null && !fetchedStartDate.isEmpty()) {
+                    startDateTextView.setVisibility(View.VISIBLE);
+                    startDateTextView.setText(fetchedStartDate);
+                } else {
+                    startDateTextView.setVisibility(View.GONE);
+                }
 
-            }
-        });
-    }
-    // Метод для загрузки аватарки исполнителя
-    private void loadExecutorAvatar(String executorId, ImageView avatarImageView) {
-        UserApiService.fetchUserById(BoardActivity.this, executorId, new UserApiService.Callback() {
-            @Override
-            public void onSuccess(JSONObject userData) throws JSONException {
-                String avatarUrl = userData.getString("avatarURL");
-                Glide.with(BoardActivity.this).load(avatarUrl).into(avatarImageView);
+                // Обновление endDateTextView и установка цвета
+                if (fetchedEndDate != null && !fetchedEndDate.isEmpty()) {
+                    endDateTextView.setVisibility(View.VISIBLE);
+                    endDateTextView.setText(fetchedEndDate);
+
+                    // Формат для преобразования даты из строки
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                    try {
+                        // Преобразование строки даты в объект Date
+                        Date endDateTime = sdf.parse(fetchedEndDate);
+                        Date currentDateTime = new Date();
+
+                        // Расчет разницы во времени в миллисекундах
+                        long diffInMillis = endDateTime.getTime() - currentDateTime.getTime();
+
+                        // Перевод разницы из миллисекунд в дни
+                        long diffInDays = diffInMillis / (24 * 60 * 60 * 1000);
+
+                        // Установка цвета текста в зависимости от разницы во времени
+                        if (diffInDays > 1) {
+                            endDateTextView.setTextColor(getResources().getColor(R.color.green));
+                        } else {
+                            endDateTextView.setTextColor(getResources().getColor(R.color.red));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        endDateTextView.setTextColor(getResources().getColor(R.color.black)); // Устанавливаем черный цвет в случае ошибки
+                    }
+                } else {
+                    endDateTextView.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -500,6 +581,29 @@ public class BoardActivity extends AppCompatActivity {
     }
 
 
+    // Метод для загрузки аватарки исполнителя
+    private void loadExecutorAvatar(String executorId, FrameLayout avatarFrame, ImageView avatarImageView) {
+        if(executorId != null ) {
+            avatarFrame.setVisibility(View.VISIBLE);
+
+            UserApiService.fetchUserById(BoardActivity.this, executorId, new UserApiService.Callback() {
+                @Override
+                public void onSuccess(JSONObject userData) throws JSONException {
+                    if (!isDestroyed()) {
+                    String avatarUrl = userData.getString("avatarURL");
+                        Glide.with(BoardActivity.this).load(avatarUrl).into(avatarImageView);
+                    }
+                }
+
+                @Override
+                public void onFailure(String errorMessage) {
+                    // Обработка ошибки
+                }
+            });
+        }
+    }
+
+
 
     private RelativeLayout createCardButton(String cardTitle, String cardId) {
         LayoutInflater inflater = getLayoutInflater();
@@ -507,7 +611,7 @@ public class BoardActivity extends AppCompatActivity {
         RelativeLayout cardButton = (RelativeLayout) inflater.inflate(R.layout.card_layout,null);
         TextView cardText = cardButton.findViewById(R.id.cardTitleTextView);
         executorAvatarImageView = cardButton.findViewById(R.id.executorAvatarImageView);
-        executorAvatarImageView = cardButton.findViewById(R.id.executorAvatarImageView);
+
         cardText.setText(cardTitle);
         cardButton.setTag(cardId);
 

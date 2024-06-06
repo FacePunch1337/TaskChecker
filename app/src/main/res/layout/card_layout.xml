@@ -4,42 +4,56 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/rounded_transparent_border_shadow"
-    android:layout_width="wrap_content">
+    android:layout_width="wrap_content"
+
+    >
+
 
     <RelativeLayout
         android:id="@+id/cardTitle"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
 
-       >
+
     <TextView
         android:id="@+id/cardTitleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-            android:text="Task"
+        android:text="Task"
         android:textColor="@color/blackTransparent80"
         android:fontFamily="@font/inter_semibold"
-        android:padding="10dp"
-        android:paddingHorizontal="15dp"/>
-        </RelativeLayout>
+        />
+
+    </RelativeLayout>
     <!-- ProgressBar -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
+    <RelativeLayout
+        android:id="@+id/progressBarView"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_alignBottom="@+id/cardTitle"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="0dp"
-        android:background="@drawable/progress_bar_rounded"
-        android:max="100"
-        android:progress="0"
-        android:progressDrawable="@drawable/progress_bar_rounded"
-        android:progressTint="@color/green" />
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/cardTitle"
+
+        android:visibility="gone"
+        >
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/progress_bar_rounded"
+            android:max="100"
+
+            android:progress="0"
+            android:progressDrawable="@drawable/progress_bar_rounded"
+            android:progressTint="@color/green" />
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/startDateTextView"
@@ -47,12 +61,13 @@
         android:layout_height="wrap_content"
         android:textSize="13sp"
         android:gravity="left"
+        android:visibility="gone"
         android:text="23.05.2024 10:00"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="0dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_below="@+id/progressBar"
+        android:layout_below="@+id/progressBarView"
         android:textColor="@color/blackTransparent80"
         android:fontFamily="@font/inter_semibold"
 
@@ -60,18 +75,19 @@
         android:paddingHorizontal="15dp"/>
 
     <TextView
+
         android:id="@+id/endDateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="13sp"
         android:textColor="@color/red"
         android:gravity="left"
-
+        android:visibility="gone"
         android:text="25.05.2024 12:00"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="20dp"
 
-        android:layout_marginBottom="10dp"
+
         android:layout_below="@+id/startDateTextView"
 
         android:fontFamily="@font/inter_semibold"
@@ -88,28 +104,32 @@
         android:layout_marginEnd="10dp"
         android:layout_marginStart="20dp">
     <RelativeLayout
-        android:id="@+id/taskInfo"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
+        android:id="@+id/cardInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         android:backgroundTint="#EFF0F1"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
         android:background="@drawable/rounded_border">
 
        <ImageView
-           android:id="@+id/describeIcon"
+           android:id="@+id/descriptionIcon"
            android:layout_width="20dp"
-           android:layout_height="15dp"
+           android:layout_height="20dp"
            android:layout_centerVertical="true"
-           android:layout_marginStart="10dp"
+
+           android:visibility="gone"
            android:src="@drawable/icon_three_lines"/>
         <TextView
             android:id="@+id/uploadsValueTextView"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/describeIcon"
+            android:layout_toEndOf="@+id/descriptionIcon"
             android:layout_marginStart="10dp"
             android:gravity="center_vertical"
-
+            android:visibility="gone"
             android:textSize="13dp"
             android:fontFamily="@font/inter_semibold"
             android:text="2"
@@ -118,29 +138,32 @@
             android:id="@+id/uploadIcon"
             android:layout_width="20dp"
             android:layout_height="15dp"
+            android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_marginStart="0dp"
             android:layout_toEndOf="@+id/uploadsValueTextView"
             android:src="@drawable/upload_icon"/>
         <TextView
-            android:id="@+id/commentsValueTextView"
+            android:id="@+id/commentsCountTextView"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/uploadIcon"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:gravity="center"
+            android:visibility="gone"
             android:textSize="13dp"
             android:fontFamily="@font/inter_semibold"
             android:text="2"
             android:src="@drawable/icon_three_lines"/>
         <ImageView
-            android:id="@+id/chatIcon"
+            android:id="@+id/commentIcon"
             android:layout_width="20dp"
             android:layout_height="15dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="0dp"
-            android:layout_toEndOf="@+id/commentsValueTextView"
+            android:layout_marginStart="5dp"
+            android:visibility="gone"
+            android:layout_toEndOf="@+id/commentsCountTextView"
             android:src="@drawable/chat_icon"/>
     </RelativeLayout>
 
@@ -154,6 +177,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="10dp"
+            android:visibility="gone"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_alignParentEnd="true"

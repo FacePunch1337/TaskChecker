@@ -104,32 +104,29 @@
                 callback.onFailure("JSON Error: " + e.getMessage());
                 return;
             }
-
             String signUpUrl = BASE_URL + "users";
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, signUpUrl, requestData,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("ApiResponse", "Response: " + response.toString());
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("ApiResponse", "Response: " + response.toString());
 
-                            try {
-                                JSONObject userData = response.getJSONObject("user");
-                                callback.onSuccess(userData);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                callback.onFailure("JSON Parsing Error: " + e.getMessage());
-                            }
-
+                        try {
+                            JSONObject userData = response.getJSONObject("user");
+                            callback.onSuccess(userData);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            callback.onFailure("JSON Parsing Error: " + e.getMessage());
                         }
-                    },
+
+                    }
+                },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             callback.onFailure("Volley Error: " + error.getMessage());
                         }
                     });
-
-
             Volley.newRequestQueue(context).add(jsonObjectRequest);
         }
 
@@ -441,6 +438,31 @@
 
             Volley.newRequestQueue(context).add(request);
         }
+        public static void removeMemberFromBoard(Context context, String boardId, String memberId, final Callback callback) {
+            String url = BASE_URL + "boards/" + boardId + "/members/" + memberId;
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d("ApiResponse", "Response: " + response.toString());
+                            try {
+                                callback.onSuccess(response);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                callback.onFailure("JSON Parsing Error: " + e.getMessage());
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            callback.onFailure("Volley Error: " + error.getMessage());
+                        }
+                    });
+
+            Volley.newRequestQueue(context).add(request);
+        }
 
         public static void fetchUserById(Context context, String userId, final Callback callback) {
             String url = BASE_URL + "users/" + userId; // Убедитесь, что этот URL корректный
@@ -549,7 +571,47 @@
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             context.startActivity(intent);
         }
+        public static void updateDescription(Context context, String boardId, String columnId, String cardId, String description, final Callback callback){
+            String url = BASE_URL + "boards/" + boardId + "/columns/" + columnId + "/cards/" + cardId;
 
+            JSONObject requestData = new JSONObject();
+            try {
+                requestData.put("description", description);
+                Log.d("Description", "description " + description);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                callback.onFailure("JSON Error: " + e.getMessage());
+                return;
+            }
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, requestData,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d("ApiResponse", "Response: " + response.toString());
+                            try {
+                                Log.d("Description", "description " + response);
+                                callback.onSuccess(response);
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if (error.networkResponse != null) {
+                                Log.e("ApiError", "Error: " + error.networkResponse.statusCode + ", " + new String(error.networkResponse.data));
+                                callback.onFailure("Error: " + error.networkResponse.statusCode + ", " + new String(error.networkResponse.data));
+                            } else {
+                                Log.e("ApiError", "Volley Error: " + error.getMessage());
+                                callback.onFailure("Volley Error: " + error.getMessage());
+                            }
+                        }
+                    });
+
+            Volley.newRequestQueue(context).add(request);
+
+        }
         public static void updateDeadline(Context context, String boardId, String columnId, String cardId, String startDate, String endDate, final Callback callback) {
             String url = BASE_URL + "boards/" + boardId + "/columns/" + columnId + "/cards/" + cardId;
 
@@ -727,7 +789,7 @@
 
 
 
-        public static void getTaskList(Context context, String boardId, String columnId, String cardId, TaskIdCallback callback) {
+        public static void getTaskList(Context context, String boardId, String columnId, String cardId, ListCallback callback) {
             String url = BASE_URL + "boards/" + boardId + "/columns/" + columnId + "/cards/" + cardId + "/tasks";
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -745,7 +807,7 @@
                                     taskIds.add(taskId);
                                 }
 
-                                callback.onSuccessWithTaskIds(response, taskIds);
+                                callback.onSuccessWithItemIds(response, taskIds);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 callback.onFailure("JSON Error: " + e.getMessage());
@@ -803,16 +865,152 @@
             Volley.newRequestQueue(context).add(request);
         }
 
+        public static void fetchUsers(Context context, final JSONArraysCallback callback) {
+            String url = BASE_URL + "users";
+
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            try {
+                                callback.onSuccess(response);
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            String errorMessage = "Volley Error: " + (error.getMessage() != null ? error.getMessage() : "Unknown error");
+                            Log.e("ApiResponse", errorMessage);
+                            callback.onFailure(errorMessage);
+                        }
+                    });
+
+            Volley.newRequestQueue(context).add(request);
+        }
+
+        public static void sendComment(Context context, String boardId, String columnId, String cardId, String memberId, String commentText, String time, JSONArraysCallback callback) {
+            String url = BASE_URL + "boards/" + boardId + "/columns/" + columnId + "/cards/" + cardId + "/comments";
+
+            // Создаем JSON-объект для комментария
+            JSONObject comment = new JSONObject();
+            try {
+                comment.put("memberId", memberId);
+                comment.put("text", commentText);
+                comment.put("time", time);
+                comment.put("index", "");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // Создаем JSON-объект для тела запроса
+            JSONObject requestBody = new JSONObject();
+            try {
+                requestBody.put("comments", new JSONArray().put(comment));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, requestBody,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // Обработка успешного ответа
+                            try {
+                                Log.d("COMMENTS RESPONSE", "Response: " + response);
+
+                                // Проверяем наличие ключа "card" в ответе
+                                if (response.has("card")) {
+                                    JSONObject cardObject = response.getJSONObject("card");
+
+                                    // Проверяем наличие ключа "comments" в объекте карточки
+                                    if (cardObject.has("comments")) {
+                                        JSONArray commentsArray = cardObject.getJSONArray("comments");
+                                        callback.onSuccess(commentsArray);
+                                    } else {
+                                        Log.e("Volley", "No value for comments in card");
+                                    }
+                                } else {
+                                    Log.e("Volley", "No value for card in response");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // Обработка ошибки
+                            error.printStackTrace();
+                            Log.e("Volley", "Error: " + error.getMessage());
+                        }
+                    }
+            );
 
 
-        public interface TaskIdCallback {
-            void onSuccessWithTaskIds(JSONObject userData, List<String> taskIds) throws JSONException;
+
+            // Добавляем запрос в очередь
+            Volley.newRequestQueue(context).add(jsonObjectRequest);
+        }
+
+        public static void fetchComments(Context context, String boardId, String columnId, String cardId, ListCallback callback) {
+            String url = BASE_URL + "boards/" + boardId + "/columns/" + columnId + "/cards/" + cardId + "/comments";
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d("ApiResponse", "Response: " + response.toString());
+                            try {
+                                JSONArray commentsArray = response.getJSONArray("comments");
+
+                                List<String> commentIds = new ArrayList<>();
+                                for (int i = 0; i < commentsArray.length(); i++) {
+                                    JSONObject commentObject = commentsArray.getJSONObject(i);
+                                    String commentId = commentObject.getString("_id");
+                                    commentIds.add(commentId);
+                                }
+
+                                callback.onSuccessWithItemIds(response, commentIds);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                callback.onFailure("JSON Error: " + e.getMessage());
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if (error.networkResponse != null) {
+                                Log.e("ApiError", "Error: " + error.networkResponse.statusCode + ", " + new String(error.networkResponse.data));
+                                callback.onFailure("Error: " + error.networkResponse.statusCode + ", " + new String(error.networkResponse.data));
+                            } else {
+                                Log.e("ApiError", "Volley Error: " + error.getMessage());
+                                callback.onFailure("Volley Error: " + error.getMessage());
+                            }
+                        }
+                    });
+
+            Volley.newRequestQueue(context).add(request);
+        }
+
+        public interface ListCallback {
+            void onSuccessWithItemIds(JSONObject userData, List<String> itemIds) throws JSONException;
             void onFailure(String errorMessage);
         }
 
         public interface Callback {
             void onSuccess(JSONObject userData) throws JSONException;
             void onFailure(String errorMessage);
+
+        }
+        public interface JSONArraysCallback {
+            void onSuccess(JSONArray userData) throws JSONException;
+            void onFailure(String errorMessage);
+
         }
 
 

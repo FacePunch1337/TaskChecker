@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,31 +44,17 @@ public class SignInFragment extends Fragment {
         usernameEditText = rootView.findViewById(R.id.usernameEditText);
         passwordEditText = rootView.findViewById(R.id.passwordEditText);
         signInButton = rootView.findViewById(R.id.signInButton);
-        //signUpLink = rootView.findViewById(R.id.signUpLink);
+
+        setEditTextTransparency(usernameEditText, usernameLabel, false);
+        setEditTextTransparency(passwordEditText, passwordLabel, false);
+
+        usernameEditText.setOnFocusChangeListener((v, hasFocus) -> setEditTextTransparency(usernameEditText, usernameLabel, hasFocus));
+        passwordEditText.setOnFocusChangeListener((v, hasFocus) -> setEditTextTransparency(passwordEditText, passwordLabel, hasFocus));
 
         signInButton.setOnClickListener(view -> signIn());
-        //signUpLink.setOnClickListener(v -> {
-            // Переключение активности происходит из AuthActivity
-       // });
-        usernameEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
-        usernameEditText.setPadding(70, 0, 35, 10);
-        passwordEditText.setPadding(70, 0, 35, 10);
-        usernameEditText.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                validateField(usernameEditText);
-            }
-        });
-
-        passwordEditText.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                validateField(passwordEditText);
-            }
-        });
 
         passwordEditText.setOnTouchListener((v, event) -> {
-            // Check if drawableEnd is clicked
             if (event.getAction() == MotionEvent.ACTION_UP && event.getRawX() >= (passwordEditText.getRight() - passwordEditText.getCompoundDrawables()[2].getBounds().width())) {
-                // Toggle password visibility
                 togglePasswordVisibility();
                 return true;
             }
@@ -77,64 +64,48 @@ public class SignInFragment extends Fragment {
         return rootView;
     }
 
-    private void validateField(EditText field) {
-        String fieldValue = field.getText().toString();
+    private void setEditTextTransparency(EditText editText, TextView label, boolean hasFocus) {
+        String fieldValue = editText.getText().toString();
+        if (!hasFocus && editText != passwordEditText) {
+            validateField(editText, label);
+        }
+        if (!hasFocus && fieldValue.isEmpty()) {
+            editText.setAlpha(0.5f);
+        } else {
+            editText.setAlpha(1.0f);
+        }
+    }
 
+    private void validateField(EditText field, TextView label) {
+        String fieldValue = field.getText().toString();
 
         field.setBackgroundResource(R.drawable.rounded_border_shadow);
         field.setPadding(70, 0, 35, 10);
-        usernameLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
-        passwordLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+        field.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+        label.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
 
         if (!TextUtils.isEmpty(fieldValue)) {
-            if (field == usernameEditText && !field.isFocused()) { // Apply specific styling for usernameEditText when not focused
+            if (field == usernameEditText && !field.isFocused()) {
                 field.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(requireContext(), R.drawable.correct), null);
             } else if (field == passwordEditText && !field.isFocused()) {
-            }
-        } else {
-            if (field == usernameEditText) {
-                field.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+                // Specific password validation if needed
             }
         }
     }
 
-
-
-
-
     private void togglePasswordVisibility() {
         if (passwordEditText.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
-            // Change password input type to visible
             passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            // Change drawableEnd icon to hide_password_icon
             passwordEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(requireContext(), R.drawable.eyeopen), null);
-            // Set font to Inter-Black
             passwordEditText.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.inter_black));
         } else {
-            // Change password input type to hidden
             passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            // Change drawableEnd icon to show_password_icon
             passwordEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(requireContext(), R.drawable.eyeclose), null);
-            // Remove font
             passwordEditText.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.inter_black));
         }
         passwordEditText.setSelection(passwordEditText.length());
     }
 
-
-
-    // Проверяет, имеется ли drawableEnd в поле EditText
-    private boolean hasCompoundDrawableEnd(EditText editText) {
-        return editText.getCompoundDrawablesRelative()[2] != null;
-    }
-
-    // Проверяет, было ли нажато на drawableEnd в поле EditText
-    private boolean isDrawableEndClicked(EditText editText) {
-        return editText.getSelectionEnd() >= editText.getRight() - editText.getTotalPaddingRight();
-    }
-
-
-    // Метод для отправки запроса на аутентификацию
     private void signIn() {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
@@ -152,15 +123,13 @@ public class SignInFragment extends Fragment {
                 Toast.makeText(requireContext(), "No!", Toast.LENGTH_SHORT).show();
                 usernameEditText.setBackgroundResource(R.drawable.rounded_error_border_shadow);
                 passwordEditText.setBackgroundResource(R.drawable.rounded_error_border_shadow);
-
                 usernameEditText.setPadding(70, 0, 35, 10);
                 passwordEditText.setPadding(70, 0, 35, 10);
                 usernameLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
                 passwordLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.red));
-
                 usernameEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(requireContext(), R.drawable.error), null);
-                // passwordEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, ContextCompat.getDrawable(requireContext(), R.drawable.error), null);
             }
         });
     }
 }
+

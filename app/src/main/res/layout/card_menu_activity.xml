@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <!-- полупрозрачный фон-->
+
     <View
         android:id="@+id/dim_view"
         android:layout_width="match_parent"
@@ -13,276 +14,375 @@
         android:background="@android:color/black"
         android:alpha="0.5"
         android:visibility="gone" />
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:orientation="vertical">
 
-    <!-- Назад кнопка -->
-    <ImageButton
-        android:id="@+id/btnBack"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:src="@drawable/backicon"
-        android:background="@drawable/rounded_border_shadow"
-        android:layout_alignParentStart="true" />
-
-    <!-- Заголовок -->
-    <TextView
-        android:id="@+id/taskTitleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Task"
-        android:textSize="24sp"
-        android:fontFamily="@font/inter_black"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="40dp"
-        android:layout_below="@id/btnBack" />
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/taskTitleTextView">
-        <RelativeLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="80dp"
+        android:padding="16dp">
+
+        <!-- Назад кнопка -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/rounded_border_shadow"
+            android:src="@drawable/backicon" />
+
+        <!-- Заголовок -->
+        <TextView
+            android:id="@+id/taskTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            >
-            <!-- Описание задачи -->
-            <RelativeLayout
-                android:id="@+id/task_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                >
+            android:layout_below="@id/btnBack"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="40dp"
+            android:fontFamily="@font/inter_black"
+            android:text="Task"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:src="@drawable/icon_three_lines" />
-                <TextView
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/taskTitleTextView">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <!-- Описание задачи -->
+                <RelativeLayout
+                    android:id="@+id/task_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="40dp">
+
+                    <ImageView
+                        android:id="@+id/descriptionIcon"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="0dp"
+                        android:src="@drawable/icon_three_lines" />
+                    <!--<TextView
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:layout_marginLeft="40dp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/inter_semibold"
-                    android:text="Description of the card..."/>
+                    android:text="Description of the card..."/-->
 
 
-                <EditText
+                    <EditText
+                        android:id="@+id/descriptionEditText"
+                        style="@style/NoUnderlineEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:layout_toEndOf="@+id/descriptionIcon"
+                        android:hint="Description of the card..."
+                        android:textSize="15dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/crossView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp" />
-            </RelativeLayout>
-            <!-- Исполнитель -->
-            <RelativeLayout
-                android:id="@+id/members_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                android:layout_below="@id/task_description">
+                    android:layout_below="@+id/task_description"
+                    android:layout_marginStart="45dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="45dp"
+                    android:layout_marginBottom="20dp">
 
-                <ImageView
-                    android:id="@+id/userIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/icon_user"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/btnSelectExecuter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toEndOf="@+id/userIcon"
-                    android:fontFamily="@font/inter_semibold"
-                    android:gravity="center"
-                    android:text="Task executor..."
-                    android:textColor="@color/blackTransparent25" />
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/executorView"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_below="@+id/members_button"
-                android:background="@drawable/rounded_border"
-                android:backgroundTint="@color/blackTransparent25"
-                android:layout_marginStart="40dp"
-                android:visibility="gone"
-                android:layout_marginEnd="40dp">
-
-                <ImageView
-                    android:id="@+id/btnChangeExecutor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginRight="16dp"
-                    android:src="@drawable/change_icon"
-                    android:textColor="@color/black" />
-            </RelativeLayout>
-
-            <!-- Таймер -->
-            <RelativeLayout
-                android:id="@+id/btnTimer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/executorView"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginTop="20dp">
-
-                <ImageButton
-                    android:id="@+id/imageButton"
-                    android:layout_width="29dp"
-                    android:layout_height="29dp"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/clock"/>
-
-
-                <TextView
-                    android:id="@+id/currentDateAndTime"
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/black" />
+                </RelativeLayout>
+                <!-- Исполнитель -->
+                <RelativeLayout
+                    android:id="@+id/members_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@+id/imageButton"
-                    android:fontFamily="@font/inter_semibold"
-                    android:text="Start..."
-                    android:textColor="@color/blackTransparent25" />
-
-                <EditText
-                    android:layout_width="288dp"
-                    android:layout_height="21dp"
-                    android:layout_below="@+id/currentDateAndTime"
+                    android:layout_below="@id/crossView"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="40dp"
+                    android:layout_marginEnd="40dp">
 
-                    android:enabled="false" />
-                <TextView
-                    android:id="@+id/deadLineTextView"
+                    <ImageView
+                        android:id="@+id/userIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="16dp"
+                        android:src="@drawable/icon_user"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/btnSelectExecuter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toEndOf="@+id/userIcon"
+                        android:fontFamily="@font/inter_semibold"
+                        android:gravity="center"
+                        android:text="Task executor..."
+                        android:textColor="@color/blackTransparent25" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/executorView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="50dp"
-                    android:layout_toEndOf="@+id/imageButton"
-                    android:fontFamily="@font/inter_semibold"
+                    android:layout_height="70dp"
+                    android:layout_below="@+id/members_button"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:background="@drawable/rounded_border"
+                    android:backgroundTint="@color/blackTransparent10"
+                    android:visibility="gone">
 
-                    android:textColor="@color/blackTransparent25" />
+                    <ImageView
+                        android:id="@+id/btnChangeExecutor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/change_icon"
+                        android:textColor="@color/black" />
+                </RelativeLayout>
+
+                <!-- Таймер -->
+                <RelativeLayout
+                    android:id="@+id/btnTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/executorView"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp">
+
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="29dp"
+                        android:layout_height="29dp"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/clock" />
+
+
+                    <TextView
+                        android:id="@+id/currentDateAndTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toEndOf="@+id/imageButton"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="Start..."
+                        android:textColor="@color/blackTransparent25" />
+
+                    <RelativeLayout
+                        android:id="@+id/timerCrossView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/currentDateAndTime"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="40dp"
+                        android:layout_marginBottom="10dp">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@color/black" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/deadLineTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_toEndOf="@+id/imageButton"
+                        android:fontFamily="@font/inter_semibold"
+
+                        android:textColor="@color/blackTransparent25" />
+                </RelativeLayout>
+
+
+                <!-- Кнопка добавления списка -->
+                <RelativeLayout
+                    android:id="@+id/btnAddList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/btnTimer"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp">
+
+                    <ImageButton
+                        android:id="@+id/listIcon"
+                        android:layout_width="29dp"
+                        android:layout_height="29dp"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/listicon" />
+                    <!-- ProgressBar -->
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/listIcon"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
+                        android:max="100"
+                        android:progress="0"
+                        android:progressTint="@color/green" />
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toEndOf="@+id/listIcon"
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="List"
+                        android:textColor="@color/blackTransparent25" />
+
+                    <!-- RecyclerView для списка задач -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/progressBar"
+                        android:layout_marginBottom="40dp"
+                        android:padding="16dp" />
+
+                    <!-- Кнопка добавления элемента -->
+
+                    <TextView
+                        android:id="@+id/btnAddTask"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="false"
+                        android:layout_marginStart="40dp"
+
+                        android:fontFamily="@font/inter_semibold"
+                        android:text="Add Element..."
+                        android:textColor="@color/blackTransparent25"
+                        android:textSize="15dp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/commentsTextView"
+                    android:layout_below="@+id/btnAddList"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/inter_semibold"
+                        android:textSize="15dp"
+                        android:text="Comments"
+                        android:textColor="@color/black"
+                        android:layout_margin="10dp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_margin="10dp"
+                        android:background="@color/blackTransparent10"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/commentsView"
+                    android:layout_below="@+id/commentsTextView"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+
+
+
+
             </RelativeLayout>
 
 
+        </ScrollView>
 
 
-            <!-- Кнопка добавления списка -->
-            <RelativeLayout
-                android:id="@+id/btnAddList"
-                android:layout_width="wrap_content"
+        <include
+            android:id="@+id/included_executers_view"
+            layout="@layout/executers_view_layout"
+
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/commentView"
+        android:background="@color/blackTransparent10"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true">
+        <!-- FrameLayout для фона и круглого изображения -->
+        <FrameLayout
+            android:id="@+id/avatarFrameLayout"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="false"
+            android:background="@drawable/rounded_border_shadow">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/avatarCommentView"
+
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/btnTimer"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="40dp">
+                android:src="@drawable/avatar_12"
+                app:shapeAppearanceOverlay="@style/CircleImageViewStyle"
+                tools:srcCompat="@drawable/avatar_12" />
 
-                <ImageButton
-                    android:id="@+id/listIcon"
-                    android:layout_width="29dp"
-                    android:layout_height="29dp"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/listicon" />
-                <!-- ProgressBar -->
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/listIcon"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:max="100"
-                    android:progress="0"
-                    android:progressTint="@color/green" />
+        </FrameLayout>
 
-                <TextView
+        <EditText
+            android:id="@+id/commentEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
 
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_toEndOf="@+id/listIcon"
-                    android:fontFamily="@font/inter_semibold"
-                    android:text="List"
-                    android:textColor="@color/blackTransparent25" />
+            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/avatarFrameLayout"
+            android:background="@drawable/rounded_border_shadow"
 
-                <!-- RecyclerView для списка задач -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/progressBar"
-                    android:layout_marginBottom="40dp"
-                    android:padding="16dp" />
+            android:drawableEnd="@drawable/send"
+            android:fontFamily="@font/inter_semibold"
+            android:hint="Add a comment..."
+            android:padding="10dp"
+            android:textSize="15dp" />
 
-                <!-- Кнопка добавления элемента -->
-
-                <TextView
-                    android:id="@+id/btnAddTask"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="false"
-                    android:layout_marginStart="40dp"
-
-                    android:fontFamily="@font/inter_semibold"
-                    android:text="Add Element..."
-                    android:textColor="@color/blackTransparent25"
-                    android:textSize="15dp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/commentView"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_below="@+id/btnAddList"
-                android:layout_alignParentBottom="true">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Add a comment..." />
-
-            </RelativeLayout>
-            <!-- Полупрозрачный фон для затемнения -->
-        </RelativeLayout>
-
-
-    </ScrollView>
-
-    <include
-        android:id="@+id/included_executers_view"
-        layout="@layout/executers_view_layout"
-
-        android:visibility="gone"/>
-
-
-</RelativeLayout>
-
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -4,7 +4,7 @@
     <!-- Чёрный объект для визуального эффекта тени -->
     <item android:left="3dp" android:top="3dp">
         <shape>
-            <solid android:color="@color/black"
+            <solid android:color="?android:shadowColor"
                 android:id="@+id/shadow_layer"
                 />
 
@@ -19,10 +19,10 @@
     <!-- Основной контур -->
     <item>
         <shape>
-            <solid android:color="@android:color/white"/>
+            <solid android:color="?android:colorBackground"/>
             <stroke
                 android:width="2dp"
-                android:color="@color/black"/>
+                android:color="?android:shadowColor"/>
             <padding
                 android:left="2dp"
                 android:top="2dp"

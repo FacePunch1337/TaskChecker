@@ -34,6 +34,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_alignParentRight="true"
                 android:background="@color/transparent"
+                android:visibility="gone"
                 android:src="@drawable/notificationicon" />
 
             <ImageButton
@@ -46,7 +47,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_alignParentRight="true"
                 android:background="@color/transparent"
-                android:src="@drawable/boardsettings" />
+                android:src="@drawable/gear" />
         </RelativeLayout>
 
         <TextView

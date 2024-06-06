@@ -2,9 +2,21 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.TaskChecker" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/black_night</item>
-        <item name="colorPrimaryDark">@color/black_night</item>
+        <item name="colorPrimaryDark">@color/blackTransparent80_night</item>
+        <item name="colorAccent">@color/red_night</item>
         <item name="android:colorBackground">@color/black_night</item>
+        <item name="android:shadowColor">@color/white_night</item>
         <item name="android:textColor">@color/white_night</item>
+
+        <!-- Additional colors -->
+        <item name="colorWhite">@color/white_night</item>
+        <item name="colorBlack">@color/black_night</item>
+        <item name="colorBlackTransparent10">@color/blackTransparent10_night</item>
+        <item name="colorBlackTransparent25">@color/blackTransparent25_night</item>
+        <item name="colorBlackTransparent75">@color/blackTransparent75_night</item>
+        <item name="colorBlackTransparent80">@color/blackTransparent80_night</item>
+        <item name="colorRed">@color/red_night</item>
+        <item name="colorGreen">@color/green_night</item>
+        <item name="colorTransparent">@color/transparent_night</item>
     </style>
 </resources>
-

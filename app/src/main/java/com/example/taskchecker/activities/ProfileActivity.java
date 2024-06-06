@@ -81,13 +81,11 @@ public class ProfileActivity extends AppCompatActivity {
         closeProfileButton = findViewById(R.id.closeProfileButton);
 
 
-
-
-
         String username = UserModel.get_username();
         String email = UserModel.get_email();
-        Glide.with(ProfileActivity.this).load(UserModel.getAvatarURL()).into(profileImageView);
-
+        if (!isDestroyed()) {
+            Glide.with(ProfileActivity.this).load(UserModel.getAvatarURL()).into(profileImageView);
+        }
         usernameTextView.setText(username);
         emailTextView.setText(email);
         closeProfileButton.setOnClickListener(v -> closeProfile());

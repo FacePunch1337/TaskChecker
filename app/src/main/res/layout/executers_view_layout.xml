@@ -40,7 +40,10 @@
                 android:src="@drawable/cross" />
 
         </RelativeLayout>
-
+        <ScrollView
+            android:id="@+id/executorsScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <RelativeLayout
             android:id="@+id/addCardEditText"
             android:layout_width="match_parent"
@@ -57,10 +60,13 @@
 
 
         </RelativeLayout>
+        </ScrollView>
         <RelativeLayout
+            android:id="@+id/btnDeleteTaskExecutor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_down_border_shadow">
+
             <ImageButton
                 android:id="@+id/btnDeleteExecutor"
                 android:layout_width="30dp"
@@ -83,6 +89,7 @@
                 android:text="Delete task executor"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
+
     </RelativeLayout>
     </LinearLayout>
 

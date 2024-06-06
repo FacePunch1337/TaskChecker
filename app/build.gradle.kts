@@ -1,5 +1,7 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services") version "4.4.2" apply false
+
 }
 
 android {
@@ -34,8 +36,12 @@ android {
     }
 }
 
+
 dependencies {
 
+    implementation("io.socket:socket.io-client:2.0.0") {
+        exclude(group = "org.json", module = "json")
+    }
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -46,13 +52,20 @@ dependencies {
     implementation ("androidx.compose.ui:ui:1.6.7")
     implementation ("com.google.android.flexbox:flexbox:3.0.0")
     implementation ("androidx.compose.foundation:foundation:1.6.7")
+    
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation ("com.google.firebase:firebase-messaging")
 
     implementation ("androidx.compose.runtime:runtime:1.6.7")
     implementation ("androidx.compose.ui:ui-tooling:1.6.7")
     implementation ("androidx.activity:activity-compose:1.9.0")
     implementation ("org.apache.commons:commons-text:1.9")
+    implementation("com.google.firebase:firebase-auth:23.0.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
+
+apply(plugin="com.google.gms.google-services")

@@ -32,4 +32,15 @@
         <attr name="bottomLeftRadius" />
     </declare-styleable>
 
+    <declare-styleable name="Theme">
+        <attr name="colorWhite" format="color"/>
+        <attr name="colorBlack" format="color"/>
+        <attr name="colorBlackTransparent10" format="color"/>
+        <attr name="colorBlackTransparent25" format="color"/>
+        <attr name="colorBlackTransparent75" format="color"/>
+        <attr name="colorBlackTransparent80" format="color"/>
+        <attr name="colorRed" format="color"/>
+        <attr name="colorGreen" format="color"/>
+        <attr name="colorTransparent" format="color"/>
+    </declare-styleable>
 </resources>

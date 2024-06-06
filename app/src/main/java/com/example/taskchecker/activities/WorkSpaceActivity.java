@@ -1,7 +1,10 @@
 package com.example.taskchecker.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,11 +12,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -24,8 +31,10 @@ import com.example.taskchecker.models.BoardButtonModel;
 import com.example.taskchecker.models.BoardModel;
 import com.example.taskchecker.models.UserModel;
 import com.example.taskchecker.services.BoardButtonAdapter;
+import com.example.taskchecker.services.MessagingService;
 import com.example.taskchecker.services.UserApiService;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.FirebaseApp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +51,8 @@ public class WorkSpaceActivity extends AppCompatActivity {
     public BoardModel boardModel;
     private LinearLayout sidePanel;
     private ShapeableImageView btnProfile;
-    private ImageButton btnLogout;
+    private TextView profileUsernameTextView;
+    private RelativeLayout btnLogout;
     private ImageButton btnToggleSidePanel;
     private ImageButton btnToggleTheme;
     private ImageButton btnToggleCreate;
@@ -57,10 +67,26 @@ public class WorkSpaceActivity extends AppCompatActivity {
 
     private static BoardButtonAdapter mAdapter;
     private static OnBoardButtonAddedListener mListener;
+    private MessagingService messagingService;
+
+
+    private ActivityResultLauncher<String> resultLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // Permission Granted
+                    //Get Device token from firebase
+
+                    messagingService.getDeviceToken();
+                } else {
+                    //Permission denied
+                }
+            }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         SharedPreferences preferences = getSharedPreferences("theme_prefs", MODE_PRIVATE);
         boolean isDarkTheme = preferences.getBoolean("is_dark_theme", false);
         if (isDarkTheme) {
@@ -70,18 +96,26 @@ public class WorkSpaceActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_workspace);
+        FirebaseApp.initializeApp(WorkSpaceActivity.this);
+        messagingService = new MessagingService();
+        messagingService.getDeviceToken();
+        requestPermission(this);
         fetchBoardButtons();
         getSupportFragmentManager().beginTransaction()
                 .hide(new BoardFragment())
                 .commit();
-        titleTextView = findViewById(R.id.titleTextView);        btnProfile = findViewById(R.id.btnProfile);
+        titleTextView = findViewById(R.id.titleTextView);
+        btnProfile = findViewById(R.id.btnProfile);
+        profileUsernameTextView = findViewById(R.id.profileUsernameTextView);
+        profileUsernameTextView.setText(UserModel.get_username());
         btnLogout = findViewById(R.id.btnLogout);
         sidePanel = findViewById(R.id.sidePanel);
         btnToggleSidePanel = findViewById(R.id.btnToggleSidePanel);
         listView = findViewById(R.id.listView);
         btnToggleCreate = findViewById(R.id.btnToggleCreate);
-        Glide.with(this).load(UserModel.getAvatarURL()).into(btnProfile);
-
+        if (!isDestroyed()) {
+            Glide.with(this).load(UserModel.getAvatarURL()).into(btnProfile);
+        }
         mBoardButtons = new ArrayList<>();
         mAdapter = new BoardButtonAdapter(this, mBoardButtons);
         listView.setAdapter(mAdapter);
@@ -127,8 +161,26 @@ public class WorkSpaceActivity extends AppCompatActivity {
             }
         });
 
-    }
 
+
+
+    }
+    public void requestPermission(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                //Permission already Granted
+            } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
+                //You can explain user that why do you need permission bu showing Dialogue box or Toast Message
+            } else {
+                //Request For Permission
+                resultLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
+            }
+        } else {
+            //GEt Device Token from Firebase
+            messagingService.getDeviceToken();
+        }
+    }
     private void openProfileActivity() {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
@@ -234,6 +286,8 @@ public class WorkSpaceActivity extends AppCompatActivity {
     public void onToggleSidePanelClick(View view) {
         if (sidePanel.getVisibility() == View.VISIBLE) {
             sidePanel.setVisibility(View.GONE);
+
+
         } else {
             sidePanel.setVisibility(View.VISIBLE);
         }

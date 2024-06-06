@@ -5,13 +5,15 @@
     android:layout_height="match_parent"
     android:id="@+id/memberView"
     android:clickable="true"
+
     android:descendantFocusability="blocksDescendants">
 
     <RelativeLayout
 
         android:layout_width="wrap_content"
         android:layout_height="65dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+       >
 
         <!-- FrameLayout для фона и круглого изображения -->
         <FrameLayout
@@ -41,18 +43,18 @@
             android:layout_toEndOf="@+id/avatarFrame"
             android:fontFamily="@font/inter_semibold"
             android:gravity="center"
-
             android:textSize="15dp" />
 
-        <!--<ImageButton
+        <ImageButton
+            android:id="@+id/btnMember"
+            android:layout_alignParentRight="true"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_alignParentRight="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/transparent"
-            android:src="@drawable/deletemembericon" /-->
+            android:background="?attr/selectableItemBackgroundBorderless"
+           />
     </RelativeLayout>
 </RelativeLayout>

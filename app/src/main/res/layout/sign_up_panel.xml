@@ -7,52 +7,55 @@
     android:padding="0dp">
 
     <!-- Sign Up -->
+
+    <!-- Username -->
+
     <TextView
         android:id="@+id/signUpTextView"
         android:layout_width="200dp"
-        android:layout_height="83dp"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="90dp"
-        android:gravity="center"
+        android:layout_marginBottom="35dp"
         android:fontFamily="@font/inter_black"
+        android:gravity="center"
         android:shadowRadius="1"
         android:text="Sign Up"
         android:textColor="@color/black"
         android:textSize="48dp" />
 
-    <!-- Username -->
     <TextView
         android:id="@+id/usernameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/signUpTextView"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="0dp"
+
         android:text="Username"
         android:layout_marginBottom="5dp"
-        android:fontFamily="@font/inter_black"
+        android:fontFamily="@font/inter_semibold"
         android:textColor="@color/black"
         android:labelFor="@id/usernameEditText"
-        android:textSize="10dp" />
+        android:textSize="14dp" />
 
     <EditText
         android:id="@+id/usernameEditText"
         android:layout_width="300dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_below="@id/usernameTextView"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/rounded_border_shadow"
         android:alpha="0.5"
         android:hint="Username"
-        android:fontFamily="@font/inter_black"
+        android:fontFamily="@font/inter_semibold"
         android:inputType="text"
         android:paddingLeft="25dp"
-
         android:drawableEnd="@drawable/correct"
         android:paddingRight="15dp"
         android:textColor="@color/black"
-        android:textSize="10sp" />
+        android:textSize="15dp" />
 
     <!-- Email -->
     <TextView
@@ -63,27 +66,27 @@
         android:layout_marginLeft="50dp"
         android:text="E-Mail"
         android:layout_marginBottom="5dp"
-        android:fontFamily="@font/inter_black"
+        android:fontFamily="@font/inter_semibold"
         android:textColor="@color/black"
-        android:textSize="10dp" />
+        android:textSize="14dp" />
 
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="300dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_below="@id/emailTextView"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/rounded_border_shadow"
         android:drawableEnd="@drawable/correct"
         android:paddingRight="15dp"
         android:hint="E-Mail"
-        android:fontFamily="@font/inter_black"
+        android:fontFamily="@font/inter_semibold"
         android:alpha="0.5"
         android:inputType="textEmailAddress"
         android:paddingLeft="25dp"
         android:textColor="@color/black"
-        android:textSize="10sp" />
+        android:textSize="15sp" />
 
     <!-- Password -->
     <TextView
@@ -94,27 +97,27 @@
         android:layout_marginLeft="50dp"
         android:text="Password"
         android:layout_marginBottom="5dp"
-        android:fontFamily="@font/inter_black"
+        android:fontFamily="@font/inter_semibold"
         android:textColor="@color/black"
-        android:textSize="10dp" />
+        android:textSize="14dp" />
 
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="300dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_below="@id/passwordTextView"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/rounded_border_shadow"
         android:drawableEnd="@drawable/eyeclose"
         android:paddingRight="15dp"
         android:hint="Password"
-        android:fontFamily="@font/inter_black"
+        android:fontFamily="@font/inter_semibold"
         android:alpha="0.5"
         android:inputType="textPassword"
         android:paddingLeft="25dp"
         android:textColor="@color/black"
-        android:textSize="10sp" />
+        android:textSize="15sp" />
 
     <!-- Repeat Password -->
     <TextView
@@ -125,40 +128,40 @@
         android:layout_below="@id/passwordEditText"
         android:layout_marginLeft="50dp"
         android:text="Repeat password"
-        android:fontFamily="@font/inter_black"
+        android:fontFamily="@font/inter_semibold"
         android:textColor="@color/black"
-        android:textSize="10dp" />
+        android:textSize="14dp" />
 
 
     <EditText
         android:id="@+id/repeatPasswordEditText"
         android:layout_width="300dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_below="@id/repeatPasswordTextView"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="20dp"
         android:alpha="0.5"
         android:background="@drawable/rounded_border_shadow"
         android:drawableEnd="@drawable/correct"
         android:paddingRight="15dp"
         android:hint="Password"
-        android:fontFamily="@font/inter_black"
+        android:fontFamily="@font/inter_semibold"
         android:inputType="textPassword"
         android:paddingLeft="25dp"
         android:textColor="@color/black"
-        android:textSize="10sp" />
+        android:textSize="15sp" />
 
     <!-- Sign Up Button -->
     <Button
         android:id="@+id/signUpButton"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
+        android:layout_width="275dp"
+        android:layout_height="75dp"
         android:layout_below="@id/repeatPasswordEditText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/black"
         android:text="Sign up"
-        android:fontFamily="@font/inter_black"
+        android:fontFamily="@font/inter_semibold"
         android:textColor="@color/white"
         android:textSize="18sp" />
 
@@ -179,6 +182,6 @@
         android:text="I’m already registered"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/black"
-        android:textSize="10sp" />
+        android:textSize="14sp" />
 
 </RelativeLayout>
